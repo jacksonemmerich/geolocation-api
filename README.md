@@ -19,8 +19,8 @@ Para instalar o projeto em Docker, faça as seguintes etapas:
 
 1. Abra o terminal e execute o comando `mvn spring-boot:build-image -DGOOGLE_MAPS_API_KEY=<seu_valor>` para buildar a imagem do Docker.
 2. Execute o comando `docker images` para verificar se a imagem foi buildada com sucesso.
-3. Execute o comando `docker run -e GOOGLE_MAPS_API_KEY=<sua_chave> -p 8080:8080 geolocation-api:0.0.1-SNAPSHOT` para rodar o container.
-4. Acesse o endereço http://localhost:8080/ para acessar o projeto.
+3. Execute o comando `docker run -e GOOGLE_MAPS_API_KEY=<sua_chave> -p 8081:8081 geolocation-api:0.0.1-SNAPSHOT` para rodar o container.
+4. Acesse o endereço http://localhost:8081/ para acessar o projeto.
 
 OBS: O nome da imagem   gerado automaticamente pelo comando `mvn spring-boot:build-image`, por isso   mostrado como `<nome-da-imagem>`.
 ## Rodando o projeto com Docker
@@ -28,8 +28,8 @@ OBS: O nome da imagem   gerado automaticamente pelo comando `mvn spring-boot:bui
 Para rodar o projeto com Docker, faça as seguintes etapas:
 
 1. Execute o comando `docker build -t geolocation-api .` para buildar a imagem do Docker.
-2. Execute o comando `docker run -p 8080:8080 geolocation-api` para rodar o container.
-3. Acesse o endere o http://localhost:8080/ para acessar o projeto.
+2. Execute o comando `docker run -p 8081:8081 geolocation-api` para rodar o container.
+3. Acesse o endere o http://localhost:8081/ para acessar o projeto.
 
 OBS: O projeto usa o GraalVM, que é uma JVM que roda nativamente e precisa de uma imagem do Docker que tenha o GraalVM como runtime. Para isso, foi adicionado o arquivo `Dockerfile` no projeto, que é  responsável por buildar a imagem do Docker com o GraalVM.
 
@@ -55,14 +55,14 @@ RUN ./mvnw package -DskipTests
 FROM openjdk:22-jdk-alpine
 WORKDIR /app
 COPY --from=build /app/target/*.jar ./app.jar
-EXPOSE 8080
+EXPOSE 8081
 ENTRYPOINT ["java", "-jar", "app.jar"]
 ```
 
 
 ## Consumindo a API
 ```
-curl --location 'http://localhost:8080/geocoding/geocode' \
+curl --location 'http://localhost:8081/geocoding/geocode' \
 --header 'Content-Type: application/json' \
 --data '{
   "address": "906 Rua jardins bairro novo, Porto Velho, RO"
@@ -71,7 +71,7 @@ curl --location 'http://localhost:8080/geocoding/geocode' \
 
 ### Requisição Reverso
 ```
-curl --location 'http://localhost:8080/geocoding/reverse' \
+curl --location 'http://localhost:8081/geocoding/reverse' \
 --header 'Content-Type: application/json' \
 --data '{
   "latitude": -8.785307,
