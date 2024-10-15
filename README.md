@@ -17,7 +17,7 @@ para criar as credenciais use o seguinte link: https://console.developers.google
 
 Para instalar o projeto em Docker, faça as seguintes etapas:
 
-1. Abra o terminal e execute o comando `mvn spring-boot:build-image -DGOOGLE_MAPS_API_KEY=<seu_valor>` para buildar a imagem do Docker.
+1. Abra o terminal e execute o comando `mvn spring-boot:build-image -e -DGOOGLE_MAPS_API_KEY=<seu_valor>` para buildar a imagem do Docker.
 2. Execute o comando `docker images` para verificar se a imagem foi buildada com sucesso.
 3. Execute o comando `docker run -e GOOGLE_MAPS_API_KEY=<sua_chave> -p 8081:8081 geolocation-api:0.0.1-SNAPSHOT` para rodar o container.
 4. Acesse o endereço http://localhost:8081/ para acessar o projeto.
@@ -69,7 +69,7 @@ curl --location 'http://localhost:8081/geocoding/geocode' \
 }'
 ```
 
-### Requisição Reverso
+## Requisição Reverso
 ```
 curl --location 'http://localhost:8081/geocoding/reverse' \
 --header 'Content-Type: application/json' \
@@ -78,3 +78,8 @@ curl --location 'http://localhost:8081/geocoding/reverse' \
   "longitude": -63.849245
 }'
 ```
+
+# Documentação da API
+
+ - para acessar a documentação da API use o seguinte link: 
+   - http://localhost:8081/swagger-ui.html

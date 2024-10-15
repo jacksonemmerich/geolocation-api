@@ -22,7 +22,7 @@ public class GeocodingService {
     private RateLimitingService rateLimitingService;
 
     @Value("${google.maps.api.key}")
-    private String apiKey;
+    private String googleMapsApiKey;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -34,7 +34,7 @@ public class GeocodingService {
         }
         URI uri = new URIBuilder("https://maps.googleapis.com/maps/api/geocode/json")
                 .addParameter("address", address)
-                .addParameter("key", apiKey)
+                .addParameter("key", googleMapsApiKey)
                 .build();
 
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
@@ -65,7 +65,7 @@ public class GeocodingService {
         }
         URI uri = new URIBuilder("https://maps.googleapis.com/maps/api/geocode/json")
                 .addParameter("latlng", latitude + "," + longitude)
-                .addParameter("key", apiKey)
+                .addParameter("key", googleMapsApiKey)
                 .build();
 
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {

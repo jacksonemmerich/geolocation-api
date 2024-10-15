@@ -6,5 +6,6 @@ import lombok.Data;
 public class ReverseGeocodingRequestDTO {
     private double latitude;
     private double longitude;
+
 }
 
