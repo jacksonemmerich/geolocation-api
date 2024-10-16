@@ -3,11 +3,11 @@ stages:
 
 build:
   stage: build
-  image: maven:3-jdk-17
+  image: maven:3.8.5-openjdk-17
   script:
     - mvn spring-boot:build-image -e -DGOOGLE_MAPS_API_KEY=$GOOGLE_MAPS_API_KEY
   artifacts:
     paths:
       - target/*.jar
   only:
-    - tags
+    - main

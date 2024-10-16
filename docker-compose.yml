@@ -1,7 +1,8 @@
-version: '3'
+version: '3.8'
 
 services:
   app:
+    image: registry-gitlab.portovelho.ro.gov.br/geolocation-api:latest
     build: .
     ports:
       - "8081:8081"
@@ -17,11 +18,3 @@ services:
         condition: on-failure
         delay: 5s
         max_attempts: 3
-
-networks:
-  app-net:
-    driver: overlay
-
-volumes:
-  app-data:
-    driver: local
