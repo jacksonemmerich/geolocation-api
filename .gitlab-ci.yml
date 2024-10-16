@@ -1,13 +1,38 @@
 stages:
   - build
+  - deploy
+
+variables:
+  DOCKER_TLS_CERTDIR: "/certs"
+  TAG_IMG: $CI_COMMIT_SHORT_SHA
+  TAG_DATA: $CI_COMMIT_TIMESTAMP
 
 build:
   stage: build
   image: maven:3.8.5-openjdk-17
+  before_script:
+    - echo $CI_JOB_TOKEN | docker login -u gitlab-ci-token $CI_REGISTRY --password-stdin
+    - echo $CI_REGISTRY
   script:
     - mvn spring-boot:build-image -e -DGOOGLE_MAPS_API_KEY=$GOOGLE_MAPS_API_KEY
+    - docker tag  $CI_REGISTRY/jackson/geolocation-api:$TAG_IMG $CI_REGISTRY/jackson/geolocation-api:latest
+    - docker push $CI_REGISTRY/jackson/geolocation-api:$TAG_IMG
+    - docker push $CI_REGISTRY/jackson/geolocation-api:latest
   artifacts:
     paths:
       - target/*.jar
   only:
     - main
+
+deploy:
+  stage: deploy
+  needs:
+    - build
+  image: alpine
+  script:
+    - apk add --update curl
+    - |
+      if [ "$CI_COMMIT_BRANCH" = "main" ]; then
+       curl -X POST $CI_WEBHOOK_PORTAINER?tag=$TAG_IMG
+       echo "Imagem de homologação de deploy concluída com sucesso..."
+      fi
