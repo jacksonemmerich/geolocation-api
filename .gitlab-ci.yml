@@ -11,7 +11,7 @@ build:
   stage: build
   image: maven:3.8.5-openjdk-17
   before_script:
-    - echo $CI_JOB_TOKEN | docker login -u $CI_REGISTRY_USER p $CI_REGISTRY_PASSWORD gitlab-ci-token $CI_REGISTRY --password-stdin
+    - echo $CI_JOB_TOKEN | docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - echo $CI_REGISTRY
   script:
     - mvn spring-boot:build-image -e -DGOOGLE_MAPS_API_KEY=$GOOGLE_MAPS_API_KEY
